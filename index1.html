@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Gift</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #ffdee9, #b5fffc);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .gift-box {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      background: #ff69b4;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 1s;
+    }
+
+    .gift-box::before {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 100%;
+      background: #fff;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .gift-lid {
+      position: absolute;
+      width: 220px;
+      height: 40px;
+      background: #ff1493;
+      top: -40px;
+      left: -10px;
+      border-radius: 5px;
+      transition: transform 1s;
+    }
+
+    .gift-lid::before {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 100%;
+      background: #fff;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #lock-section {
+      margin-top: 30px;
+    }
+
+    #message {
+      font-size: 28px;
+      color: #ff1493;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .heart {
+      position: fixed;
+      color: #ff69b4;
+      font-size: 20px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(100vh); opacity: 0; }
+    }
+
+    .open .gift-lid {
+      transform: translateY(-100px) rotate(-20deg);
+    }
+
+    .open .gift-box {
+      transform: translateY(20px);
+    }
+  </style>
+</head>
+<body>
+  <div class="gift-box" id="gift">
+    <div class="gift-lid"></div>
+  </div>
+
+  <div id="lock-section">
+    <input type="password" id="code" placeholder="Enter secret code">
+  </div>
+
+  <div id="message">🎉 Happy Birthday Lamar! 🎂</div>
+
+  <script>
+    const secretCode = "0217";
+    const inputField = document.getElementById("code");
+    const gift = document.getElementById("gift");
+    const message = document.getElementById("message");
+    const lockSection = document.getElementById("lock-section");
+
+    inputField.addEventListener("input", () => {
+      if (inputField.value === secretCode) {
+        gift.classList.add("open");
+        setTimeout(() => {
+          gift.style.display = "none";
+          lockSection.style.display = "none";
+          message.style.display = "block";
+          startHearts();
+        }, 1500);
+      }
+    });
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (20 + Math.random() * 30) + "px";
+      heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    function startHearts() {
+      setInterval(createHeart, 200);
+    }
+  </script>
+</body>
+</html>
